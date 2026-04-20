@@ -1,0 +1,17 @@
+.container { display: flex; flex-direction: column; align-items: center; padding: 60px 20px; height: 100%; background-color: var(--bg-main); overflow-y: auto; }
+.hero { text-align: center; margin-bottom: 40px; }
+.logo { height: 80px; margin-bottom: 10px; filter: drop-shadow(0 0 15px rgba(201, 168, 76, 0.4)); }
+.title { font-family: 'Cinzel', serif; font-size: 3rem; margin: 0; color: var(--text-main); }
+.subtitle { color: var(--accent-teal); font-size: 1.2rem; margin: 0; }
+.searchSection { width: 100%; max-width: 700px; position: relative; margin-bottom: 60px; z-index: 10; }
+.omnibox { display: flex; align-items: center; background-color: var(--bg-sidebar); border-radius: var(--radius-pill); padding: 15px 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); border: 1px solid var(--border-color); }
+.searchInput { flex: 1; background: none; border: none; outline: none; font-size: 1.2rem; color: var(--text-main); margin-left: 15px; }
+.searchIcon { color: var(--text-muted); }
+.searchResults { position: absolute; top: 70px; left: 0; right: 0; background-color: var(--bg-sidebar); border-radius: var(--radius-card); padding: 15px; box-shadow: 0 20px 40px rgba(0,0,0,0.5); border: 1px solid var(--border-color); max-height: 300px; overflow-y: auto; }
+.resultItem { padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; display: flex; align-items: center; gap: 10px; }
+.resultItem:hover { background-color: rgba(255,255,255,0.05); }
+.tag { font-size: 0.7rem; background: var(--bg-main); padding: 3px 8px; border-radius: 10px; color: var(--accent-gold); }
+.cardGrid { display: flex; gap: 30px; width: 100%; max-width: 900px; }
+.shortcutCard { flex: 1; background-color: var(--bg-element); padding: 30px; border-radius: var(--radius-card); text-align: center; cursor: pointer; transition: 0.2s ease; border: 1px solid transparent; }
+.shortcutCard:hover { transform: translateY(-5px); border-color: var(--accent-teal); }
+.shortcutCard h3 { margin: 15px 0 0 0; color: var(--text-main); font-family: 'Cinzel', serif; }

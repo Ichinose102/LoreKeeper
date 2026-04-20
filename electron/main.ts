@@ -12,6 +12,7 @@ import {
   CHANNEL_TAGS_CREATE,
   CHANNEL_TAGS_ADD_TO_NOTE,
   CHANNEL_TAGS_REMOVE_FROM_NOTE,
+  CHANNEL_SEARCH_QUERY, // 🟢 NOUVEAU: N'oublie pas de l'ajouter dans ton ipc-channels.ts
 } from '../shared/ipc-channels';
 import {
   getAllNotes,
@@ -26,6 +27,7 @@ import {
   linkNotes,
   unlinkNotes,
 } from './services/db.service';
+import { searchService } from './services/search.service'; // 🟢 NOUVEAU: Import du service de recherche
 import { NoteInput } from '../shared/types';
 
 let mainWindow: BrowserWindow | null = null;
@@ -56,6 +58,15 @@ function createWindow() {
 app.whenReady().then(() => {
   createWindow();
 
+  // 🟢 NOUVEAU: Initialisation du moteur de recherche < 100ms au démarrage
+  try {
+    const notes = getAllNotes();
+    searchService.initializeIndex(notes);
+    console.log(`[Main] Moteur de recherche initialisé avec ${notes.length} notes.`);
+  } catch (error) {
+    console.error(`[Main] Erreur lors de l'initialisation de la recherche :`, error);
+  }
+
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
       createWindow();
@@ -69,7 +80,21 @@ app.on('window-all-closed', () => {
   }
 });
 
+// ==========================================
+// IPC Handlers - Search (🟢 NOUVEAU)
+// ==========================================
+ipcMain.handle(CHANNEL_SEARCH_QUERY, (_, query: string) => {
+  try {
+    const results = searchService.search(query);
+    return { ok: true, data: results };
+  } catch (error) {
+    return { ok: false, error: String(error) };
+  }
+});
+
+// ==========================================
 // IPC Handlers - Notes
+// ==========================================
 ipcMain.handle(CHANNEL_NOTES_GET_ALL, () => {
   try {
     const notes = getAllNotes();
@@ -94,6 +119,8 @@ ipcMain.handle(CHANNEL_NOTES_GET_BY_ID, (_, id: string) => {
 ipcMain.handle(CHANNEL_NOTES_CREATE, (_, input: NoteInput) => {
   try {
     const note = createNote(input);
+    // 🟢 NOUVEAU: On met à jour l'index en RAM après une création !
+    searchService.addNoteToIndex(note); 
     return { ok: true, data: note };
   } catch (error) {
     return { ok: false, error: String(error) };
@@ -106,6 +133,8 @@ ipcMain.handle(CHANNEL_NOTES_UPDATE, (_, { id, patch }: { id: string; patch: Par
     if (!note) {
       return { ok: false, error: 'Note not found' };
     }
+    // 🟢 NOUVEAU: On met à jour l'index en RAM après modification !
+    searchService.updateNoteInIndex(note);
     return { ok: true, data: note };
   } catch (error) {
     return { ok: false, error: String(error) };
@@ -115,6 +144,8 @@ ipcMain.handle(CHANNEL_NOTES_UPDATE, (_, { id, patch }: { id: string; patch: Par
 ipcMain.handle(CHANNEL_NOTES_DELETE, (_, id: string) => {
   try {
     deleteNote(id);
+    // 🟢 NOUVEAU: On retire la note de l'index en RAM
+    searchService.removeNoteFromIndex(id);
     return { ok: true };
   } catch (error) {
     return { ok: false, error: String(error) };
@@ -139,7 +170,9 @@ ipcMain.handle(CHANNEL_NOTES_UNLINK, (_, { sourceId, targetId }: { sourceId: str
   }
 });
 
+// ==========================================
 // IPC Handlers - Tags
+// ==========================================
 ipcMain.handle(CHANNEL_TAGS_GET_ALL, () => {
   try {
     const tags = getAllTags();

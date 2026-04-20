@@ -1,0 +1,89 @@
+.container {
+  padding: 40px;
+  background-color: var(--bg-main);
+  height: 100%;
+  color: var(--text-main);
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  z-index: 10;
+}
+
+.title {
+  font-family: 'Cinzel', serif;
+  font-size: 2.5rem;
+  margin: 0;
+}
+
+.controls {
+  display: flex;
+  gap: 10px;
+}
+
+.controlBtn {
+  background-color: var(--bg-element);
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.graphArea {
+  flex: 1;
+  background-color: var(--bg-sidebar); /* Légèrement différent pour bien délimiter la zone */
+  border-radius: var(--radius-card);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+}
+
+.nodeCentral, .node {
+  position: absolute;
+  padding: 15px 25px;
+  border-radius: 30px;
+  font-weight: bold;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.nodeCentral {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--accent-gold);
+  color: var(--bg-main);
+  font-size: 1.2rem;
+  z-index: 5;
+}
+
+.node { background-color: var(--bg-element); border: 1px solid var(--border-color); }
+.n1 { top: 20%; left: 30%; }
+.n2 { top: 70%; left: 60%; }
+.n3 { top: 30%; left: 70%; }
+
+.legend {
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  background-color: rgba(30, 30, 30, 0.8);
+  backdrop-filter: blur(10px);
+  padding: 20px;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--border-color);
+}
+
+.legend h3 { margin: 0 0 15px 0; font-size: 1rem; }
+.legendItem { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-size: 0.9rem;}
+.dotTeal, .dotGold, .dotWhite { width: 12px; height: 12px; border-radius: 50%; }
+.dotTeal { background-color: var(--accent-teal); }
+.dotGold { background-color: var(--accent-gold); }
+.dotWhite { background-color: var(--text-muted); }

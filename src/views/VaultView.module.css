@@ -1,68 +1,153 @@
-.vault-view {
+.container {
+  padding: 40px;
+  background-color: var(--bg-main);
+  height: 100%;
   display: flex;
   flex-direction: column;
-  gap: var(--space-lg);
-  height: 100%;
+  gap: 30px;
+  overflow-y: auto;
 }
 
-.view-header {
+.header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: var(--space-md);
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 20px;
 }
 
-.btn-primary {
+.title {
+  font-family: 'Cinzel', serif;
+  color: var(--text-main);
+  margin: 0;
+  font-size: 2rem;
+}
+
+.primaryBtn {
   background-color: var(--accent-gold);
-  color: var(--bg-primary);
-  padding: var(--space-sm) var(--space-md);
-  font-weight: 600;
-  transition: background-color var(--transition-fast);
+  color: var(--bg-main);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: filter var(--transition-fast);
 }
 
-.btn-primary:hover {
-  background-color: var(--gold);
+.primaryBtn:hover {
   filter: brightness(1.1);
 }
 
-.btn-secondary {
-  background-color: var(--bg-tertiary);
-  color: var(--text-primary);
-  padding: var(--space-sm) var(--space-md);
-  border: 1px solid var(--border-color);
-  transition: background-color var(--transition-fast);
-}
-
-.btn-secondary:hover {
-  background-color: var(--bg-primary);
-}
-
-.create-note-form {
+.createCard {
+  background-color: var(--bg-sidebar); /* Bleu ardoise pour ressortir sur le fond */
+  padding: 20px;
+  border-radius: var(--radius-card);
   display: flex;
-  gap: var(--space-md);
+  gap: 15px;
   align-items: center;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
 }
 
-.create-note-form input {
+.input, .select {
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 12px 15px;
+  border-radius: 8px;
+  outline: none;
+  font-size: 1rem;
+}
+
+.input {
   flex: 1;
 }
 
-.form-actions {
+.actions {
   display: flex;
-  gap: var(--space-sm);
+  gap: 10px;
 }
 
-.notes-grid {
+.submitBtn {
+  background-color: var(--accent-teal);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.cancelBtn {
+  background-color: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--text-muted);
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: var(--space-md);
-  overflow: auto;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 25px;
 }
 
-.empty-state {
+.emptyState {
   color: var(--text-muted);
   text-align: center;
-  padding: var(--space-xl);
+  padding: 60px;
   grid-column: 1 / -1;
+  font-style: italic;
+  background-color: var(--bg-sidebar);
+  border-radius: var(--radius-card);
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 20px; /* On réduit les marges sur petit écran */
+  }
+
+  .header {
+    flex-direction: column; /* Le titre et le bouton s'empilent */
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .createCard {
+    flex-direction: column; /* Les champs du formulaire s'empilent */
+    align-items: stretch;
+  }
+
+  .actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .submitBtn, .cancelBtn {
+    flex: 1; /* Les boutons prennent 50% de la largeur chacun */
+    text-align: center;
+  }
+
+  .grid {
+    /* La grille était déjà responsive avec auto-fill, mais on réduit la taille minimum de la carte */
+    grid-template-columns: repeat(auto-fill, minmax(100%, 1fr)); 
+  }
+}
+
+@media (max-width: 768px) {
+  .cardGrid {
+    flex-direction: column; /* Les 3 cartes de raccourcis s'empilent verticalement */
+    gap: 15px;
+  }
+
+  .omnibox {
+    padding: 10px 20px; /* Barre de recherche plus fine */
+  }
+
+  .searchInput {
+    font-size: 1rem;
+  }
 }

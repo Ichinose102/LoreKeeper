@@ -1,66 +1,18 @@
 :root {
-  /* Couleurs principales */
-  --gold: #c9a84c;
-  --teal: #4aa8a0;
-  --teal-dark: #3d8f88;
+  /* Palette extraite des maquettes */
+  --bg-main: #1d2a49;        /* Bleu marine profond (Fond principal) */
+  --bg-sidebar: #3a506d;     /* Bleu ardoise (Barre latérale) */
+  --bg-element: #d1d9e0;     /* Gris/Sauge clair (Cartes, Searchbar) */
+  
+  --text-main: #ffffff;
+  --text-muted: #a0a0a0;
+  --text-dark: #1b1e2b;      /* Pour écrire sur les éléments clairs */
 
-  /* Backgrounds */
-  --bg-primary: #1a1a1a;
-  --bg-secondary: #242424;
-  --bg-tertiary: #2d2d2d;
-
-  /* Text */
-  --text-primary: #f0f0f0;
-  --text-secondary: #a0a0a0;
-  --text-muted: #666666;
-
-  /* Borders */
-  --border-color: #3a3a3a;
-  --border-light: #4a4a4a;
-
-  /* Accents */
-  --accent-gold: var(--gold);
-  --accent-teal: var(--teal);
-  --error: #e74c3c;
-  --success: #27ae60;
-
-  /* Typography */
-  --font-display: 'Cinzel', Georgia, serif;
-  --font-body: 'Source Serif 4', Georgia, serif;
-  --font-mono: 'JetBrains Mono', Consolas, monospace;
-
-  /* Spacing */
-  --space-xs: 0.25rem;
-  --space-sm: 0.5rem;
-  --space-md: 1rem;
-  --space-lg: 1.5rem;
-  --space-xl: 2rem;
-
-  /* Border radius */
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-
-  /* Shadows */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.5);
-
-  /* Transitions */
-  --transition-fast: 150ms ease;
-  --transition-normal: 250ms ease;
-  --transition-slow: 400ms ease;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    --bg-primary: #fafafa;
-    --bg-secondary: #ffffff;
-    --bg-tertiary: #f0f0f0;
-    --text-primary: #1a1a1a;
-    --text-secondary: #555555;
-    --text-muted: #888888;
-    --border-color: #e0e0e0;
-    --border-light: #d0d0d0;
-  }
+  --accent-teal: #4aa8a0;    /* Le teal de tes icônes */
+  --accent-gold: #c9a84c;    /* Le doré du logo */
+  
+  --radius-pill: 50px;       /* Pour la barre de recherche */
+  --radius-card: 20px;       /* Pour les cartes du dashboard */
+  
+  --transition-fast: 0.2s ease;
 }

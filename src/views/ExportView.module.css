@@ -1,0 +1,12 @@
+.container { padding: 40px; background-color: var(--bg-main); height: 100%; color: var(--text-main); }
+.header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px;}
+.title { font-family: 'Cinzel', serif; font-size: 2.5rem; margin: 0; }
+.exportCard { background-color: var(--bg-element); padding: 40px; border-radius: var(--radius-card); max-width: 800px;}
+.cardHeader { display: flex; align-items: center; gap: 15px; margin-bottom: 30px; }
+.cardHeader h2 { font-family: 'Cinzel', serif; margin: 0; }
+.biblioPreview { background-color: var(--bg-main); padding: 20px; border-radius: 8px; margin-bottom: 30px; border: 1px solid var(--border-color); }
+.biblioPreview h3 { margin-top: 0; font-size: 1.1rem; color: var(--accent-teal); }
+.biblioPreview ul { padding-left: 20px; color: var(--text-muted); line-height: 1.8; }
+.actions { display: flex; gap: 15px; }
+.btnPrimary { background-color: var(--accent-gold); color: var(--bg-main); border: none; padding: 12px 20px; border-radius: 8px; font-weight: bold; display: flex; align-items: center; gap: 10px; cursor: pointer; }
+.btnSecondary { background-color: transparent; color: var(--text-main); border: 1px solid var(--border-color); padding: 12px 20px; border-radius: 8px; cursor: pointer; }

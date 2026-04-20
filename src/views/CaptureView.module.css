@@ -1,0 +1,35 @@
+.container {
+  padding: 40px;
+  background-color: var(--bg-main);
+  height: 100%;
+  color: var(--text-main);
+}
+.header { margin-bottom: 40px; }
+.title { font-family: 'Cinzel', serif; font-size: 2.5rem; margin: 0; }
+.subtitle { color: var(--text-muted); font-size: 1.1rem; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 30px; }
+.captureCard {
+  background-color: var(--bg-element);
+  padding: 30px;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--border-color);
+}
+.iconWrapper { margin-bottom: 15px; }
+.captureCard h3 { font-family: 'Cinzel', serif; font-size: 1.5rem; margin-top: 0; }
+.captureCard p { color: var(--text-muted); line-height: 1.5; margin-bottom: 25px; }
+.inputGroup { display: flex; gap: 10px; }
+.input {
+  flex: 1; padding: 12px 15px; border-radius: 8px;
+  background-color: var(--bg-main); color: var(--text-main);
+  border: 1px solid var(--border-color); outline: none;
+}
+.actionBtn {
+  background-color: var(--accent-teal); color: white; border: none;
+  padding: 0 20px; border-radius: 8px; font-weight: bold; cursor: pointer;
+}
+.uploadArea {
+  border: 2px dashed var(--border-color); border-radius: 8px; padding: 40px 20px;
+  display: flex; flex-direction: column; align-items: center; gap: 15px;
+  color: var(--text-muted); cursor: pointer; transition: border-color var(--transition-fast);
+}
+.uploadArea:hover { border-color: var(--accent-gold); }

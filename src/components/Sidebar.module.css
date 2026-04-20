@@ -1,54 +1,68 @@
 .sidebar {
-  width: 220px;
-  min-width: 220px;
-  background-color: var(--bg-secondary);
+  width: 260px;
+  height: 100vh;
+  background-color: var(--bg-sidebar);
   border-right: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  padding: 20px 0;
 }
 
-.sidebar-header {
-  padding: var(--space-lg);
-  border-bottom: 1px solid var(--border-color);
+.logoWrapper {
+  padding: 0 30px 40px 30px;
+  display: flex;
+  justify-content: center;
 }
 
 .logo {
-  font-size: 1.5rem;
-  color: var(--accent-gold);
-  text-transform: uppercase;
-  letter-spacing: 2px;
+  height: 60px;
+  filter: drop-shadow(0 0 10px rgba(74, 168, 160, 0.3));
 }
 
-.sidebar-nav {
-  flex: 1;
-  padding: var(--space-md);
+.nav {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
+  gap: 5px;
 }
 
-.nav-link {
+.navItem {
   display: flex;
   align-items: center;
-  gap: var(--space-sm);
-  padding: var(--space-sm) var(--space-md);
-  color: var(--text-secondary);
-  text-decoration: none;
-  border-radius: var(--radius-md);
+  gap: 15px;
+  padding: 12px 30px;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
   transition: all var(--transition-fast);
+  width: 100%;
+  text-align: left;
+  border-left: 4px solid transparent;
 }
 
-.nav-link:hover {
-  background-color: var(--bg-tertiary);
-  color: var(--text-primary);
+.navItem:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: var(--text-main);
 }
 
-.nav-link.active {
-  background-color: var(--bg-tertiary);
-  color: var(--accent-gold);
-  border-left: 3px solid var(--accent-gold);
+.navItem.active {
+  color: var(--accent-teal);
+  background-color: rgba(74, 168, 160, 0.1);
+  border-left: 4px solid var(--accent-teal);
 }
 
-.nav-icon {
-  font-size: 1.1rem;
+.icon {
+  display: flex;
+  align-items: center;
+}
+
+.label {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.footer {
+  border-top: 1px solid var(--border-color);
+  padding-top: 20px;
 }

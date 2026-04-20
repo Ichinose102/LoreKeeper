@@ -1,0 +1,141 @@
+.container {
+  display: flex;
+  height: 100%;
+  background-color: var(--bg-main);
+}
+
+/* --- ÉDITEUR CENTRAL --- */
+.editorSection {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+  max-width: 900px;
+  margin: 0 auto; /* Centre l'éditeur si l'écran est très large */
+}
+
+.editorHeader {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 20px;
+}
+
+.headerIcon {
+  color: var(--accent-teal);
+}
+
+.titleInput {
+  background: transparent;
+  border: none;
+  color: var(--text-main);
+  font-family: 'Cinzel', serif;
+  font-size: 2rem;
+  width: 100%;
+  outline: none;
+}
+
+.textarea {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--text-main);
+  font-family: 'Source Serif 4', serif;
+  font-size: 1.2rem;
+  line-height: 1.8;
+  resize: none;
+  outline: none;
+  /* Optionnel : cacher la barre de défilement pour un look plus propre */
+  scrollbar-width: thin; 
+}
+
+/* --- PANNEAU DE CONTEXTE (DROITE) --- */
+.contextPanel {
+  width: 320px;
+  background-color: var(--bg-sidebar); /* Même couleur que la navigation gauche */
+  border-left: 1px solid var(--border-color);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.panelHeader h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--text-main);
+}
+
+.panelHeader p {
+  margin: 5px 0 0 0;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.sourceList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sourceCard {
+  background-color: var(--bg-main);
+  border: 1px solid var(--border-color);
+  padding: 12px;
+  border-radius: var(--radius-card);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: grab;
+  transition: transform var(--transition-fast), border-color var(--transition-fast);
+}
+
+.sourceCard:active {
+  cursor: grabbing;
+}
+
+.sourceCard:hover {
+  transform: translateX(-5px); /* Petit effet au survol */
+  border-color: var(--accent-teal);
+}
+
+.dragHandle {
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+}
+
+.sourceIcon {
+  color: var(--accent-gold);
+  display: flex;
+  align-items: center;
+}
+
+.sourceTitle {
+  font-size: 0.9rem;
+  color: var(--text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 1024px) {
+  .contextPanel {
+    width: 250px; /* Plus petit sur écran moyen */
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column; /* Le panneau passe en dessous sur mobile */
+  }
+  .contextPanel {
+    width: 100%;
+    border-left: none;
+    border-top: 1px solid var(--border-color);
+  }
+}
