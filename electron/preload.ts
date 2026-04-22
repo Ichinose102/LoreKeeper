@@ -11,6 +11,9 @@ import {
   CHANNEL_TAGS_CREATE,
   CHANNEL_TAGS_ADD_TO_NOTE,
   CHANNEL_TAGS_REMOVE_FROM_NOTE,
+  CHANNEL_SEARCH_QUERY,
+  CHANNEL_MEDIA_TRANSCRIBE,
+  CHANNEL_MEDIA_GET_CHUNKS,
 } from '../shared/ipc-channels';
 import { Note, NoteInput, Tag } from '../shared/types';
 
@@ -43,7 +46,20 @@ const tagsApi = {
     ipcRenderer.invoke(CHANNEL_TAGS_REMOVE_FROM_NOTE, { noteId, tagId }) as Promise<IpcResponse<void>>,
 };
 
+const searchApi = {
+  query: (query: string) => ipcRenderer.invoke(CHANNEL_SEARCH_QUERY, query) as Promise<IpcResponse<any>>,
+};
+
+const mediaApi = {
+  transcribeYouTube: (url: string) =>
+    ipcRenderer.invoke(CHANNEL_MEDIA_TRANSCRIBE, url) as Promise<IpcResponse<any>>,
+  getChunks: (noteId: string) =>
+    ipcRenderer.invoke(CHANNEL_MEDIA_GET_CHUNKS, noteId) as Promise<IpcResponse<any>>,
+};
+
 contextBridge.exposeInMainWorld('electronAPI', {
   notes: notesApi,
   tags: tagsApi,
+  search: searchApi,
+  media: mediaApi,
 });

@@ -12,7 +12,9 @@ import {
   CHANNEL_TAGS_CREATE,
   CHANNEL_TAGS_ADD_TO_NOTE,
   CHANNEL_TAGS_REMOVE_FROM_NOTE,
-  CHANNEL_SEARCH_QUERY, // 🟢 NOUVEAU: N'oublie pas de l'ajouter dans ton ipc-channels.ts
+  CHANNEL_SEARCH_QUERY,
+  CHANNEL_MEDIA_TRANSCRIBE,
+  CHANNEL_MEDIA_GET_CHUNKS,
 } from '../shared/ipc-channels';
 import {
   getAllNotes,
@@ -26,9 +28,13 @@ import {
   removeTagFromNote,
   linkNotes,
   unlinkNotes,
+  getDb,
 } from './services/db.service';
-import { searchService } from './services/search.service'; // 🟢 NOUVEAU: Import du service de recherche
+import { searchService } from './services/search.service';
+import { transcribeYouTubeVideo } from './services/media.service';
 import { NoteInput } from '../shared/types';
+import { transcriptionChunks } from '../drizzle/schema';
+import { eq } from 'drizzle-orm';
 
 let mainWindow: BrowserWindow | null = null;
 
@@ -204,6 +210,28 @@ ipcMain.handle(CHANNEL_TAGS_REMOVE_FROM_NOTE, (_, { noteId, tagId }: { noteId: s
   try {
     removeTagFromNote(noteId, tagId);
     return { ok: true };
+  } catch (error) {
+    return { ok: false, error: String(error) };
+  }
+});
+
+// ==========================================
+// IPC Handlers - Media
+// ==========================================
+ipcMain.handle(CHANNEL_MEDIA_TRANSCRIBE, async (_, url: string) => {
+  try {
+    const result = await transcribeYouTubeVideo(url);
+    return { ok: true, data: result };
+  } catch (error) {
+    return { ok: false, error: String(error) };
+  }
+});
+
+ipcMain.handle(CHANNEL_MEDIA_GET_CHUNKS, (_, noteId: string) => {
+  try {
+    const db = getDb();
+    const chunks = db.select().from(transcriptionChunks).where(eq(transcriptionChunks.note_id, noteId)).all();
+    return { ok: true, data: chunks };
   } catch (error) {
     return { ok: false, error: String(error) };
   }

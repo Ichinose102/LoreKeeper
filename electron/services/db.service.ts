@@ -34,6 +34,9 @@ export function getSqliteDb() {
   return sqliteDb!;
 }
 
+// Export getDb pour usage dans media.service et main
+export { getDb as getDbInstance };
+
 // Notes CRUD
 export function getAllNotes(): Note[] {
   const result = getDb().select().from(notes).all();

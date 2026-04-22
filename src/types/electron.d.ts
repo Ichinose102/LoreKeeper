@@ -23,9 +23,20 @@ interface TagsApi {
   removeFromNote: (noteId: string, tagId: string) => Promise<IpcResponse<void>>;
 }
 
+interface SearchApi {
+  query: (query: string) => Promise<IpcResponse<any>>;
+}
+
+interface MediaApi {
+  transcribeYouTube: (url: string) => Promise<IpcResponse<any>>;
+  getChunks: (noteId: string) => Promise<IpcResponse<any>>;
+}
+
 interface ElectronAPI {
   notes: NotesApi;
   tags: TagsApi;
+  search: SearchApi;
+  media: MediaApi;
 }
 
 declare global {

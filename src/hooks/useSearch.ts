@@ -14,7 +14,7 @@ export function useSearch() {
     const delayDebounceFn = setTimeout(async () => {
       setIsSearching(true);
       try {
-        const response = await window.loreKeeperAPI.searchLore(query);
+        const response = await window.electronAPI.search.query(query);
         
         // 🟢 LA CORRECTION EST ICI : On vérifie "response.ok" et on prend "response.data"
         if (response.ok) {
