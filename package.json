@@ -2,25 +2,25 @@
   "name": "lorekeeper",
   "version": "0.1.0",
   "description": "Outil de gestion de connaissances pour créateurs de contenu Lore & Histoire",
-  "main": "dist-electron/main.js",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "tsx drizzle/migrate.ts",
     "db:studio": "drizzle-kit studio",
     "test": "vitest run",
-    "test:watch": "vitest",
-    "test:e2e": "playwright test"
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.30.1",
-    "better-sqlite3": "^11.6.0",
+    "@neondatabase/serverless": "^1.1.0",
     "dotenv": "^17.4.2",
-    "drizzle-orm": "^0.36.0",
+    "drizzle-orm": "^0.36.4",
     "lucide-react": "^1.8.0",
     "minisearch": "^7.2.0",
+    "next": "^16.2.4",
     "openai": "^6.34.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -31,31 +31,13 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.48.0",
-    "@types/better-sqlite3": "^7.6.12",
-    "@types/node": "^22.9.0",
+    "@types/node": "^22.19.17",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@types/uuid": "^10.0.0",
-    "@vitejs/plugin-react": "^4.3.3",
     "drizzle-kit": "^0.28.0",
-    "electron": "^33.2.0",
-    "electron-builder": "^25.1.8",
     "tsx": "^4.19.2",
     "typescript": "^5.6.3",
-    "vite": "^5.4.11",
-    "vite-plugin-electron": "^0.28.8",
-    "vite-plugin-electron-renderer": "^0.14.6",
     "vitest": "^2.1.5"
-  },
-  "build": {
-    "appId": "com.lorekeeper.app",
-    "productName": "LoreKeeper",
-    "directories": {
-      "output": "release"
-    },
-    "files": [
-      "dist/**/*",
-      "dist-electron/**/*"
-    ]
   }
 }

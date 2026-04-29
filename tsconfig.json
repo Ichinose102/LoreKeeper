@@ -9,7 +9,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx",
+    "jsx": "preserve",
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
@@ -18,10 +18,16 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "@electron/*": ["./electron/*"],
+      "@lib/*": ["./src/lib/*"],
       "@shared/*": ["./shared/*"]
-    }
+    },
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
-  "include": ["src", "electron", "shared"],
-  "exclude": ["node_modules", "dist", "dist-electron"]
+  "include": ["src", "shared", "next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules", "electron", "dist", "dist-electron"]
 }

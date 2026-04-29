@@ -13,6 +13,8 @@ import {
   CHANNEL_TAGS_REMOVE_FROM_NOTE,
   CHANNEL_SEARCH_QUERY,
   CHANNEL_MEDIA_TRANSCRIBE,
+  CHANNEL_MEDIA_TRANSCRIBE_FILE,
+  CHANNEL_MEDIA_OCR,
   CHANNEL_MEDIA_GET_CHUNKS,
 } from '../shared/ipc-channels';
 import { Note, NoteInput, Tag } from '../shared/types';
@@ -22,6 +24,12 @@ interface IpcResponse<T> {
   ok: boolean;
   data?: T;
   error?: string;
+}
+
+interface FileData {
+  name: string;
+  type: string;
+  buffer: ArrayBuffer;
 }
 
 const notesApi = {
@@ -53,6 +61,24 @@ const searchApi = {
 const mediaApi = {
   transcribeYouTube: (url: string) =>
     ipcRenderer.invoke(CHANNEL_MEDIA_TRANSCRIBE, url) as Promise<IpcResponse<any>>,
+  transcribeFile: async (file: File) => {
+    const buffer = await file.arrayBuffer();
+    const fileData: FileData = {
+      name: file.name,
+      type: file.type,
+      buffer: buffer,
+    };
+    return ipcRenderer.invoke(CHANNEL_MEDIA_TRANSCRIBE_FILE, fileData) as Promise<IpcResponse<any>>;
+  },
+  performOCR: async (file: File) => {
+    const buffer = await file.arrayBuffer();
+    const fileData: FileData = {
+      name: file.name,
+      type: file.type,
+      buffer: buffer,
+    };
+    return ipcRenderer.invoke(CHANNEL_MEDIA_OCR, fileData) as Promise<IpcResponse<any>>;
+  },
   getChunks: (noteId: string) =>
     ipcRenderer.invoke(CHANNEL_MEDIA_GET_CHUNKS, noteId) as Promise<IpcResponse<any>>,
 };

@@ -33,3 +33,49 @@
   color: var(--text-muted); cursor: pointer; transition: border-color var(--transition-fast);
 }
 .uploadArea:hover { border-color: var(--accent-gold); }
+.uploadArea.dragging { border-color: var(--accent-teal); background-color: rgba(0, 128, 128, 0.1); }
+
+.fileStatus {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px; background-color: var(--bg-main);
+  border-radius: 8px; margin-top: 15px; font-size: 0.9rem;
+}
+.fileStatus .processing { color: var(--accent-teal); margin-left: auto; }
+
+.errorMessage {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px; background-color: rgba(220, 53, 69, 0.1);
+  border: 1px solid rgba(220, 53, 69, 0.3); border-radius: 8px;
+  margin-top: 15px; color: #dc3545; font-size: 0.9rem;
+}
+.errorMessage p { margin: 0; flex: 1; }
+
+.resultBox {
+  margin-top: 20px; padding: 20px;
+  background-color: var(--bg-main); border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+.resultBox h4 { margin-top: 0; color: var(--accent-teal); }
+.resultHeader { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+.resultHeader h4 { margin: 0; }
+.noteTitle, .noteType, .noteUrl { margin: 10px 0; font-size: 0.95rem; }
+.noteUrl a { color: var(--accent-teal); }
+.chunksList { margin-top: 15px; }
+.chunksList ul { list-style: none; padding: 0; margin: 10px 0; max-height: 300px; overflow-y: auto; }
+.chunksList li {
+  display: flex; gap: 15px; padding: 10px;
+  background-color: var(--bg-element); border-radius: 6px;
+  margin-bottom: 8px; font-size: 0.9rem;
+}
+.chunksList .timestamp {
+  font-family: monospace; color: var(--accent-gold);
+  min-width: 50px; font-weight: bold;
+}
+.chunksList .text { flex: 1; color: var(--text-main); }
+
+.clearBtn {
+  background: none; border: none; cursor: pointer;
+  color: var(--text-muted); padding: 4px; border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+}
+.clearBtn:hover { background-color: var(--border-color); color: var(--text-main); }

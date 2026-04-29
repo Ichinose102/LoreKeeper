@@ -1,6 +1,12 @@
 import { create } from 'zustand';
 import { Note, NoteInput, Tag } from '../../shared/types';
 
+interface ApiResponse<T> {
+  ok: boolean;
+  data?: T;
+  error?: string;
+}
+
 interface VaultState {
   notes: Note[];
   tags: Tag[];
@@ -29,11 +35,12 @@ export const useVaultStore = create<VaultState>((set) => ({
   loadNotes: async () => {
     set({ isLoading: true, error: null });
     try {
-      const response = await window.electronAPI.notes.getAll();
-      if (response.ok) {
-        set({ notes: response.data ?? [], isLoading: false });
+      const response = await fetch('/api/notes');
+      const data: ApiResponse<Note[]> = await response.json();
+      if (data.ok) {
+        set({ notes: data.data ?? [], isLoading: false });
       } else {
-        set({ error: response.error ?? 'Failed to load notes', isLoading: false });
+        set({ error: data.error ?? 'Failed to load notes', isLoading: false });
       }
     } catch (err) {
       set({ error: String(err), isLoading: false });
@@ -42,10 +49,15 @@ export const useVaultStore = create<VaultState>((set) => ({
 
   createNote: async (input: NoteInput) => {
     try {
-      const response = await window.electronAPI.notes.create(input);
-      if (response.ok && response.data) {
-        set((state) => ({ notes: [...state.notes, response.data!] }));
-        return response.data;
+      const response = await fetch('/api/notes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(input),
+      });
+      const data: ApiResponse<Note> = await response.json();
+      if (data.ok && data.data) {
+        set((state) => ({ notes: [...state.notes, data.data!] }));
+        return data.data;
       }
       return null;
     } catch (err) {
@@ -56,12 +68,17 @@ export const useVaultStore = create<VaultState>((set) => ({
 
   updateNote: async (id: string, patch: Partial<NoteInput>) => {
     try {
-      const response = await window.electronAPI.notes.update(id, patch);
-      if (response.ok && response.data) {
+      const response = await fetch(`/api/notes/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(patch),
+      });
+      const data: ApiResponse<Note> = await response.json();
+      if (data.ok && data.data) {
         set((state) => ({
-          notes: state.notes.map((n) => (n.id === id ? response.data! : n)),
+          notes: state.notes.map((n) => (n.id === id ? data.data! : n)),
         }));
-        return response.data;
+        return data.data;
       }
       return null;
     } catch (err) {
@@ -72,8 +89,11 @@ export const useVaultStore = create<VaultState>((set) => ({
 
   deleteNote: async (id: string) => {
     try {
-      const response = await window.electronAPI.notes.delete(id);
-      if (response.ok) {
+      const response = await fetch(`/api/notes/${id}`, {
+        method: 'DELETE',
+      });
+      const data: ApiResponse<void> = await response.json();
+      if (data.ok) {
         set((state) => ({ notes: state.notes.filter((n) => n.id !== id) }));
       }
     } catch (err) {
@@ -83,9 +103,10 @@ export const useVaultStore = create<VaultState>((set) => ({
 
   loadTags: async () => {
     try {
-      const response = await window.electronAPI.tags.getAll();
-      if (response.ok) {
-        set({ tags: response.data ?? [] });
+      const response = await fetch('/api/tags');
+      const data: ApiResponse<Tag[]> = await response.json();
+      if (data.ok) {
+        set({ tags: data.data ?? [] });
       }
     } catch (err) {
       console.error('Failed to load tags:', err);
@@ -94,10 +115,15 @@ export const useVaultStore = create<VaultState>((set) => ({
 
   createTag: async (name: string) => {
     try {
-      const response = await window.electronAPI.tags.create(name);
-      if (response.ok && response.data) {
-        set((state) => ({ tags: [...state.tags, response.data!] }));
-        return response.data;
+      const response = await fetch('/api/tags', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name }),
+      });
+      const data: ApiResponse<Tag> = await response.json();
+      if (data.ok && data.data) {
+        set((state) => ({ tags: [...state.tags, data.data!] }));
+        return data.data;
       }
       return null;
     } catch (err) {

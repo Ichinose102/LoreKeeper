@@ -29,6 +29,7 @@ export const CHANNEL_AI_ANALYZE = 'ai:analyze';
 
 // Media
 export const CHANNEL_MEDIA_TRANSCRIBE = 'media:transcribe';
+export const CHANNEL_MEDIA_TRANSCRIBE_FILE = 'media:transcribeFile';
 export const CHANNEL_MEDIA_OCR = 'media:ocr';
 export const CHANNEL_MEDIA_GET_CHUNKS = 'media:getChunks';
 

@@ -1,8 +1,22 @@
 import { useState, useEffect } from 'react';
 
+interface SearchResult {
+  id: string;
+  title: string;
+  content: string;
+  type: string;
+  score: number;
+}
+
+interface ApiResponse<T> {
+  ok: boolean;
+  data?: T;
+  error?: string;
+}
+
 export function useSearch() {
   const [query, setQuery] = useState('');
-  const [results, setResults] = useState<any[]>([]);
+  const [results, setResults] = useState<SearchResult[]>([]);
   const [isSearching, setIsSearching] = useState(false);
 
   useEffect(() => {
@@ -14,18 +28,18 @@ export function useSearch() {
     const delayDebounceFn = setTimeout(async () => {
       setIsSearching(true);
       try {
-        const response = await window.electronAPI.search.query(query);
-        
-        // 🟢 LA CORRECTION EST ICI : On vérifie "response.ok" et on prend "response.data"
-        if (response.ok) {
-          setResults(response.data);
+        const response = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
+        const data: ApiResponse<SearchResult[]> = await response.json();
+
+        if (data.ok) {
+          setResults(data.data ?? []);
         } else {
-          console.error("Erreur du backend :", response.error);
+          console.error("Erreur du backend :", data.error);
           setResults([]);
         }
-        
+
       } catch (error) {
-        console.error("Erreur de recherche IPC:", error);
+        console.error("Erreur de recherche:", error);
         setResults([]);
       } finally {
         setIsSearching(false);

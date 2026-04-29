@@ -14,6 +14,7 @@ import {
   CHANNEL_TAGS_REMOVE_FROM_NOTE,
   CHANNEL_SEARCH_QUERY,
   CHANNEL_MEDIA_TRANSCRIBE,
+  CHANNEL_MEDIA_TRANSCRIBE_FILE,
   CHANNEL_MEDIA_GET_CHUNKS,
 } from '../shared/ipc-channels';
 import {
@@ -31,8 +32,9 @@ import {
   getDb,
 } from './services/db.service';
 import { searchService } from './services/search.service';
-import { transcribeYouTubeVideo } from './services/media.service';
+import { transcribeYouTubeVideo, transcribeFile, performOCR } from './services/media.service';
 import { NoteInput } from '../shared/types';
+import { FileData } from './services/media.service';
 import { transcriptionChunks } from '../drizzle/schema';
 import { eq } from 'drizzle-orm';
 
@@ -232,6 +234,24 @@ ipcMain.handle(CHANNEL_MEDIA_GET_CHUNKS, (_, noteId: string) => {
     const db = getDb();
     const chunks = db.select().from(transcriptionChunks).where(eq(transcriptionChunks.note_id, noteId)).all();
     return { ok: true, data: chunks };
+  } catch (error) {
+    return { ok: false, error: String(error) };
+  }
+});
+
+ipcMain.handle(CHANNEL_MEDIA_TRANSCRIBE_FILE, async (_, file: File) => {
+  try {
+    const result = await transcribeFile(file);
+    return { ok: true, data: result };
+  } catch (error) {
+    return { ok: false, error: String(error) };
+  }
+});
+
+ipcMain.handle(CHANNEL_MEDIA_OCR, async (_, file: File) => {
+  try {
+    const result = await performOCR(file);
+    return { ok: true, data: result };
   } catch (error) {
     return { ok: false, error: String(error) };
   }

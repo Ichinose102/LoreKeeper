@@ -1,25 +1,28 @@
-import { sqliteTable, text, integer, primaryKey } from 'drizzle-orm/sqlite-core';
+import { pgTable, text, timestamp, integer, primaryKey, pgEnum } from 'drizzle-orm/pg-core';
+
+// Enum pour les types de notes
+export const noteTypeEnum = pgEnum('note_type', ['note', 'wiki', 'video', 'ocr']);
 
 // Notes - sources de lore
-export const notes = sqliteTable('notes', {
+export const notes = pgTable('notes', {
   id: text('id').primaryKey(),
   title: text('title').notNull(),
-  type: text('type', { enum: ['note', 'wiki', 'video', 'ocr'] }).notNull(),
+  type: noteTypeEnum('type').notNull(),
   content: text('content').default('').notNull(),
   url: text('url'),
   era: text('era'),
-  created_at: integer('created_at', { mode: 'timestamp_ms' }).notNull(),
-  updated_at: integer('updated_at', { mode: 'timestamp_ms' }).notNull(),
+  created_at: timestamp('created_at').notNull(),
+  updated_at: timestamp('updated_at').notNull(),
 });
 
 // Tags
-export const tags = sqliteTable('tags', {
+export const tags = pgTable('tags', {
   id: text('id').primaryKey(),
   name: text('name').notNull().unique(),
 });
 
 // Relation many-to-many notes <-> tags
-export const notesTags = sqliteTable('notes_tags', {
+export const notesTags = pgTable('notes_tags', {
   note_id: text('note_id').notNull().references(() => notes.id, { onDelete: 'cascade' }),
   tag_id: text('tag_id').notNull().references(() => tags.id, { onDelete: 'cascade' }),
 }, (table) => ({
@@ -27,7 +30,7 @@ export const notesTags = sqliteTable('notes_tags', {
 }));
 
 // Liens bidirectionnels entre notes [[Note]]
-export const noteLinks = sqliteTable('note_links', {
+export const noteLinks = pgTable('note_links', {
   source_id: text('source_id').notNull().references(() => notes.id, { onDelete: 'cascade' }),
   target_id: text('target_id').notNull().references(() => notes.id, { onDelete: 'cascade' }),
 }, (table) => ({
@@ -35,7 +38,7 @@ export const noteLinks = sqliteTable('note_links', {
 }));
 
 // Timeline events
-export const timelineEvents = sqliteTable('timeline_events', {
+export const timelineEvents = pgTable('timeline_events', {
   id: text('id').primaryKey(),
   note_id: text('note_id').references(() => notes.id, { onDelete: 'set null' }),
   era: text('era').notNull(),
@@ -45,7 +48,7 @@ export const timelineEvents = sqliteTable('timeline_events', {
 });
 
 // Chunks de transcription vidéo
-export const transcriptionChunks = sqliteTable('transcription_chunks', {
+export const transcriptionChunks = pgTable('transcription_chunks', {
   id: text('id').primaryKey(),
   note_id: text('note_id').notNull().references(() => notes.id, { onDelete: 'cascade' }),
   timestamp_ms: integer('timestamp_ms').notNull(),
